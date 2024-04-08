@@ -1,4 +1,4 @@
-package car.parking.frontcontroller;
+package car.records.frontcontroller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ParkingFrontController
+ * Servlet implementation class RecordsFrontController
  */
-@WebServlet("/ParkingFrontController")
-public class ParkingFrontController extends HttpServlet {
+@WebServlet("/RecordsFrontController")
+public class RecordsFrontServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ParkingFrontController() {
+    public RecordsFrontServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
