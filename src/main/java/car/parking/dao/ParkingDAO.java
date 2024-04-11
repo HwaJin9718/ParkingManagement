@@ -82,9 +82,80 @@ public class ParkingDAO implements ParkingService {
 	}
 
 	@Override
-	public ParkingDTO parkingInsert(ParkingDTO parkingDTO) {
-		// TODO Auto-generated method stub
-		return null;
+	public void parkingInsert(ParkingDTO parkingDTO) {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			
+			Context context = new InitialContext();
+			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
+			connection = dataSource.getConnection();
+			
+			String sql = "insert into parking (parking_code, parking_name, parking_address, parking_latitude, parking_longitude, parking_operation, "
+					+ "parking_type, parking_total_spaces, parking_electriccar_check, parking_electriccar_spaces, "
+					+ "parking_pay_type, parking_base_fee, parking_hourly_rate, "
+					+ "parking_photo1_name, parking_photo1_path, parking_photo2_name, parking_photo2_path, "
+					+ "parking_photo3_name, parking_photo3_path, parking_photo4_name, parking_photo4_path, "
+					+ "parking_photo5_name, parking_photo5_path, parking_document_name, parking_document_path, "
+					+ "parking_registration, parking_edit, user_code)";
+			sql += " values (parking_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate, sysdate, ?)";
+			log.info("SQL 확인 - " + sql);
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, parkingDTO.getParking_name());
+			preparedStatement.setString(2, parkingDTO.getParking_address());
+			preparedStatement.setDouble(3, parkingDTO.getParking_latitude());
+			preparedStatement.setDouble(4, parkingDTO.getParking_longitude());
+			preparedStatement.setString(5, parkingDTO.getParking_operation());
+			preparedStatement.setString(6, parkingDTO.getParking_type());
+			preparedStatement.setString(7, parkingDTO.getParking_total_spaces());
+			preparedStatement.setString(8, parkingDTO.getParking_electriccar_check());
+			preparedStatement.setString(9, parkingDTO.getParking_electriccar_spaces());
+			preparedStatement.setString(10, parkingDTO.getParking_pay_type());
+			preparedStatement.setString(11, parkingDTO.getParking_base_fee());
+			preparedStatement.setString(12, parkingDTO.getParking_hourly_rate());
+			preparedStatement.setString(13, parkingDTO.getParking_photo1_name());
+			preparedStatement.setString(14, parkingDTO.getParking_photo1_path());
+			preparedStatement.setString(15, parkingDTO.getParking_photo2_name());
+			preparedStatement.setString(16, parkingDTO.getParking_photo2_path());
+			preparedStatement.setString(17, parkingDTO.getParking_photo3_name());
+			preparedStatement.setString(18, parkingDTO.getParking_photo3_path());
+			preparedStatement.setString(19, parkingDTO.getParking_photo4_name());
+			preparedStatement.setString(20, parkingDTO.getParking_photo4_path());
+			preparedStatement.setString(21, parkingDTO.getParking_photo5_name());
+			preparedStatement.setString(22, parkingDTO.getParking_photo5_path());
+			preparedStatement.setString(23, parkingDTO.getParking_document_name());
+			preparedStatement.setString(24, parkingDTO.getParking_document_path());
+			preparedStatement.setInt(25, parkingDTO.getUser_code());
+			
+			int count = preparedStatement.executeUpdate();
+			
+			if (count > 0) {
+				connection.setAutoCommit(false);
+				connection.commit();
+				log.info("주차장 등록 - 커밋되었습니다.");
+			} else {
+				connection.rollback();
+				log.info("주차장 등록 - 롤백되었습니다.");
+			}
+			
+		} catch (NamingException e) {
+			log.info(parkingDTO.getUser_code() + "회원 주차장 등록 실패(NamingException) - " + e);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			log.info(parkingDTO.getUser_code() + "회원 주차장 등록 실패(SQLException) - " + e);
+			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	@Override

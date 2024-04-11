@@ -10,7 +10,7 @@ public interface ParkingService {
 	
 	public ParkingDTO parkingSelectDetail(int parking_code);
 	
-	public ParkingDTO parkingInsert(ParkingDTO parkingDTO);
+	public void parkingInsert(ParkingDTO parkingDTO);
 	
 	public ParkingDTO parkingUpdate(ParkingDTO parkingDTO);
 	

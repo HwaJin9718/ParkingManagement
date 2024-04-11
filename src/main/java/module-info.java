@@ -4,5 +4,6 @@ module parkingmanagement {
 	requires java.sql;
 	requires java.naming;
 	requires java.servlet;
+	requires cos;
 	
 }
