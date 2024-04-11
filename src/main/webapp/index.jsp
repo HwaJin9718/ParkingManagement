@@ -4,9 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>주차장 관리</title>
 </head>
 <body>
+
+<script type="text/javascript">
+location.href = "./ParkingSelectAll.hj";
+</script>
 
 </body>
 </html>

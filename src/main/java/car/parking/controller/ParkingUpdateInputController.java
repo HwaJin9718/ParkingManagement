@@ -1,5 +1,17 @@
 package car.parking.controller;
 
-public class ParkingUpdateInputController {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import car.common.control.Controller;
+import car.common.handler.HandlerAdapter;
+
+public class ParkingUpdateInputController implements Controller {
+	
+	@Override
+	public HandlerAdapter execute(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

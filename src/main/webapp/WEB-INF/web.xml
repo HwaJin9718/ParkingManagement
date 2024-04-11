@@ -21,12 +21,12 @@
   </servlet-mapping>
   
   <servlet>
-  <servlet-name>RecordsFrontServlet</servlet-name>
+  <servlet-name>RecordsFrontController</servlet-name>
   <servlet-class>car.records.frontcontroller.RecordsFrontServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  <servlet-name>RecordsFrontServlet</servlet-name>
-  <url-pattern>*.hj</url-pattern>
+  <servlet-name>RecordsFrontController</servlet-name>
+  <url-pattern>*.hw</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

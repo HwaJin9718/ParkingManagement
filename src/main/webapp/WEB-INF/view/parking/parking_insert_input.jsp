@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>주차장 등록 화면(input)</title>
 </head>
 <body>
 
