@@ -44,8 +44,6 @@ public class ParkingFrontServlet extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String pathURL = requestURI.substring(contextPath.length());
 		log.info("맵핑명 조회 - " + pathURL);
-		log.info("request - " + request);
-		log.info("response - " + response);
 		
 		HandlerAdapter handlerAdapter = null;
 		Controller controller = null;

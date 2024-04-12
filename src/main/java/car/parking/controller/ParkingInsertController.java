@@ -3,12 +3,14 @@ package car.parking.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -21,24 +23,31 @@ import car.common.handler.HandlerAdapter;
 import car.parking.dao.ParkingDAO;
 import car.parking.dto.ParkingDTO;
 
+@MultipartConfig(
+	    fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
+	    maxFileSize = 1024 * 1024 * 50,      // 50 MB
+	    maxRequestSize = 1024 * 1024 * 100   // 100 MB
+	)
 public class ParkingInsertController implements Controller {
 	
 	private static final Log log = LogFactory.getLog(ParkingInsertController.class);
 	
-	private String parkingphoto = "/WEB-INF/view/parkingphoto";
-	private String parkingdocument = "/WEB-INF/view/parkingdocument";
+	private String parkingphotoPath = "/WEB-INF/view/parkingphoto";
+	private String parkingdocumentPath = "/WEB-INF/view/parkingdocument";
 	
 	@Override
 	public HandlerAdapter execute(HttpServletRequest request, HttpServletResponse response) {
+		
+		int user_code = 12345; // 회원코드 세션으로 받을 것!!
 		
 		String parking_name = request.getParameter("parking_name");
 		log.info("parking_name - " + parking_name);
 		String parking_address = request.getParameter("parking_address");
 		log.info("parking_address - " + parking_address);
 		double parking_latitude = Double.parseDouble(request.getParameter("parking_latitude"));
-		log.info("parking_address - " + parking_address);
+		log.info("parking_latitude - " + parking_latitude);
 		double parking_longitude = Double.parseDouble(request.getParameter("parking_longitude"));
-		log.info("parking_address - " + parking_address);
+		log.info("parking_longitude - " + parking_longitude);
 		String parking_operation = request.getParameter("parking_operation");
 		log.info("parking_operation - " + parking_operation);
 		String parking_type = request.getParameter("parking_type");
@@ -66,86 +75,81 @@ public class ParkingInsertController implements Controller {
 		String parking_photo4_path = null;
 		String parking_photo5_name = null;
 		String parking_photo5_path = null;
-
+		
+		String parking_document_name = null;
+		String parking_document_path = null;
+		
 		try {
+			
+			Collection<Part> parts = request.getParts();
+			int photoCount = 1;
+			
+			for (Part part : parts) {
+				
+				String name = part.getName();
+				
+				if (name != null && (name.startsWith("parking_photo") || name.equals("parking_document"))) {
 					
-					Collection<Part> parts = request.getParts();
-					log.info("이미지 파일 - " + parts);
-					int photoCount = 1;
+					String fileName = getFileName(part);
+					log.info("fileName - " + fileName);
 					
-					for (Part part : parts) {
+					if (fileName != null && !fileName.isEmpty()) {
 						
-						if (part.getName().startsWith("parking_photo")) {
-							
-							String fileName = getFileName(part);
-							
-							if (fileName != null && !fileName.isEmpty()) {
-								
-					            String imagePath = parkingphoto + File.separator + fileName;
-					            
-					            try (InputStream input = part.getInputStream()) {
-					                Files.copy(input, Paths.get(imagePath), StandardCopyOption.REPLACE_EXISTING);
-					            }
-					            
-					            switch (photoCount) {
-				                case 1:
-				                    parking_photo1_name = fileName;
-				                    parking_photo1_path = imagePath;
-				                    break;
-				                case 2:
-				                    parking_photo2_name = fileName;
-				                    parking_photo2_path = imagePath;
-				                    break;
-				                case 3:
-				                    parking_photo3_name = fileName;
-				                    parking_photo3_path = imagePath;
-				                    break;
-				                case 4:
-				                    parking_photo4_name = fileName;
-				                    parking_photo4_path = imagePath;
-				                    break;
-				                case 5:
-				                    parking_photo5_name = fileName;
-				                    parking_photo5_path = imagePath;
-				                    break;
-				                    
-					            }
-					            
-					            photoCount++;
-								
+						String imagePath;
+						
+						if (name.equals("parking_document")) {
+							String documentFolderPath = parkingdocumentPath + File.separator + user_code;
+							createFolder(documentFolderPath);
+							imagePath = documentFolderPath + File.separator + fileName;
+						} else {
+							String photoFolderPath = parkingphotoPath + File.separator + user_code;
+							createFolder(photoFolderPath);
+							imagePath = photoFolderPath + File.separator + fileName;
+						}
+						
+						try (InputStream input = part.getInputStream()) {
+			                Files.copy(input, Paths.get(imagePath), StandardCopyOption.REPLACE_EXISTING);
+			            }
+						
+						if (name.equals("parking_document")) {
+							parking_document_name = fileName;
+							parking_document_path = imagePath;
+						} else {
+							switch (photoCount) {
+							case 1:
+								parking_photo1_name = fileName;
+								parking_photo1_path = imagePath;
+								break;
+							case 2:
+								parking_photo2_name = fileName;
+								parking_photo2_path = imagePath;
+								break;
+							case 3:
+								parking_photo3_name = fileName;
+								parking_photo3_path = imagePath;
+								break;
+							case 4:
+								parking_photo4_name = fileName;
+								parking_photo4_path = imagePath;
+								break;
+							case 5:
+								parking_photo5_name = fileName;
+								parking_photo5_path = imagePath;
+								break;
 							}
-							
+							photoCount++;
 						}
 						
 					}
 					
-				} catch (IOException | ServletException e) {
-					log.info("Collection의 request.getParts() 오류, 메서드 확인 - " + e);
-					e.printStackTrace();
 				}
-
-
-		String parking_document_name = null;
-		String parking_document_path = null;
 				
-				try {
-					
-					Part documentPart = request.getPart("parking_document");
-					String documentFileName = getFileName(documentPart);
-					if (documentFileName != null && !documentFileName.isEmpty()) {
-					    String documentPath = parkingdocument + File.separator + documentFileName;
-
-					    try (InputStream input = documentPart.getInputStream()) {
-					        Files.copy(input, Paths.get(documentPath), StandardCopyOption.REPLACE_EXISTING);
-					    }
-					    parking_document_name = documentFileName;
-					    parking_document_path = documentPath;
-					}
-					
-				} catch (IOException | ServletException e) {
-					log.info("documentPart의 request.getPart() 오류, 메서드 확인" + e);
-					e.printStackTrace();
-				}
+			}
+			
+		} catch (IOException | ServletException e) {
+			log.info("ParkingInsertController Collection<Part> 오류 - " + e);
+			e.printStackTrace();
+		}
 		
 		
 		ParkingDAO parkingDAO = new ParkingDAO();
@@ -175,7 +179,7 @@ public class ParkingInsertController implements Controller {
 		parkingDTO.setParking_photo5_path(parking_photo5_path);
 		parkingDTO.setParking_document_name(parking_document_name);
 		parkingDTO.setParking_document_path(parking_document_path);
-		parkingDTO.setUser_code(12345); // 회원코드 세션으로 받을 것!!
+		parkingDTO.setUser_code(user_code);
 		
 		parkingDAO.parkingInsert(parkingDTO);
 		request.setAttribute("parkingDTO", parkingDTO);
@@ -187,6 +191,7 @@ public class ParkingInsertController implements Controller {
 	}
 	
 	private String getFileName(Part part) {
+		
 	    String contentDispositionHeader = part.getHeader("content-disposition");
 	    String[] elements = contentDispositionHeader.split(";");
 	    
@@ -197,6 +202,13 @@ public class ParkingInsertController implements Controller {
 	    }
 	    
 	    return null;
+	}
+	
+	private void createFolder(String folderPath) {
+		File file = new File(folderPath);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
 	}
 
 }

@@ -10,7 +10,7 @@
 
 <h5>주차장 등록</h5>
 
-<form action="./ParkingInsert.hj" method="get" enctype="multipart/form-data">
+<form action="./ParkingInsert.hj" method="post" enctype="multipart/form-data">
 <fieldset>
 
 <div>
