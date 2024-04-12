@@ -74,6 +74,7 @@ public class ParkingFrontServlet extends HttpServlet {
 		
 		else if(pathURL.equals("/ParkingInsert.hj")) {
 			
+			request.setCharacterEncoding("UTF-8");
 			controller = new ParkingInsertController();
 			handlerAdapter = controller.execute(request, response);
 			log.info("FrontServlet 주차장 등록 - " + handlerAdapter);
