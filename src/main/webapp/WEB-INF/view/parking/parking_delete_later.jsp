@@ -4,15 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주차장 정보 삭제 요청</title>
+<title>주차장 정보 삭제</title>
 </head>
 <body>
-
-<h5>주차장 정보 삭제 요청</h5>
-
-<script type="text/javascript">
-
-</script>
 
 </body>
 </html>

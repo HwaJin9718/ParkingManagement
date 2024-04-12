@@ -79,6 +79,14 @@ public class ParkingFrontServlet extends HttpServlet {
 			handlerAdapter = controller.execute(request, response);
 			log.info("FrontServlet 주차장 등록 - " + handlerAdapter);
 			
+		} 
+		
+		else if(pathURL.equals("/ParkingDelete.hj")) {
+			
+			handlerAdapter = new HandlerAdapter();
+			handlerAdapter.setPath("/WEB-INF/view/parking/parking_delete.jsp");
+			log.info("FrontServlet 주차장 삭제 요청 화면 - " + handlerAdapter);
+			
 		}
 		
 		else {
