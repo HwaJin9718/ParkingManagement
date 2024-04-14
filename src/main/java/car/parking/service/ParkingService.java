@@ -14,6 +14,6 @@ public interface ParkingService {
 	
 	public ParkingDTO parkingUpdate(ParkingDTO parkingDTO);
 	
-	public ParkingDTO parkingDelete(int parking_code);
+	public void parkingDelete(int parking_code);
 
 }

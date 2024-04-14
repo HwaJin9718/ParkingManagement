@@ -21,7 +21,7 @@ public class ParkingDeleteController implements Controller {
 		parkingDTO.setParking_code(parking_code);
 		request.setAttribute("parkingDTO", parkingDTO);
 		
-		parkingDTO = parkingDAO.parkingDelete(parking_code);
+		parkingDAO.parkingDelete(parking_code);
 		
 		HandlerAdapter handlerAdapter = new HandlerAdapter();
 		handlerAdapter.setPath("/WEB-INF/view/parking/parking_delete_later.jsp");

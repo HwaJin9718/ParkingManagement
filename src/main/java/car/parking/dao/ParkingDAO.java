@@ -220,12 +220,15 @@ public class ParkingDAO implements ParkingService {
 
 	@Override
 	public ParkingDTO parkingUpdate(ParkingDTO parkingDTO) {
-		// TODO Auto-generated method stub
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
 		return null;
 	}
 
 	@Override
-	public ParkingDTO parkingDelete(int parking_code) {
+	public void parkingDelete(int parking_code) {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -262,7 +265,6 @@ public class ParkingDAO implements ParkingService {
 			e.printStackTrace();
 		}
 		
-		return null;
 	}
 
 }
