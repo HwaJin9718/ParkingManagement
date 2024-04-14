@@ -9,15 +9,15 @@
 <body>
 
 <div>
-<button onclick="./ParkingSelectAll.hj">주차장 관리</button>
+<button onclick="location.href = './ParkingSelectAll.hj'">주차장 관리</button>
 </div>
 
 <div>
-<button onclick="">사용자 주차 기록</button>
+<button onclick="location.href = ''">사용자 주차 기록</button>
 </div>
 
 <div>
-<button onclick="">주차장 관리자 주차 기록</button>
+<button onclick="location.href = ''">주차장 관리자 주차 기록</button>
 </div>
 
 </body>

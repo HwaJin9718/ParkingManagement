@@ -53,13 +53,21 @@ public class ParkingFrontServlet extends HttpServlet {
 		HandlerAdapter handlerAdapter = null;
 		Controller controller = null;
 		
-		if (pathURL.equals("/ParkingSelectAll.hj")) {
+		if (pathURL.equals("/Menu.hj")) {
+			
+			handlerAdapter = new HandlerAdapter();
+			handlerAdapter.setPath("/WEB-INF/view/main/main.jsp");
+			log.info("FrontServlet 메뉴 화면 - " + handlerAdapter);
+			
+		}
+		
+		else if(pathURL.equals("/ParkingSelectAll.hj")) {
 			
 			controller = new ParkingSelectAllController();
 			handlerAdapter = controller.execute(request, response);
 			log.info("FrontServlet 주차장 전체 조회 - " + handlerAdapter);
 			
-		} 
+		}
 		
 		else if(pathURL.equals("/ParkingSelectDetail.hj")) {
 			
@@ -73,7 +81,7 @@ public class ParkingFrontServlet extends HttpServlet {
 			
 			handlerAdapter = new HandlerAdapter();
 			handlerAdapter.setPath("/WEB-INF/view/parking/parking_insert_input.jsp");
-			log.info("FrontServlet 주차장 등록 화면 - " + handlerAdapter);
+			log.info("FrontServlet 주차장 등록 화면(input) - " + handlerAdapter);
 
 		}
 		
@@ -90,7 +98,7 @@ public class ParkingFrontServlet extends HttpServlet {
 			
 			controller = new ParkingUpdateController();
 			handlerAdapter = controller.execute(request, response);
-			log.info("FrontServlet 주차장 수정 전체조회 - " + handlerAdapter);
+			log.info("FrontServlet 주차장 수정 화면(주차장 코드 조회) - " + handlerAdapter);
 			
 		} 
 		
@@ -98,7 +106,7 @@ public class ParkingFrontServlet extends HttpServlet {
 			
 			controller = new ParkingUpdateInputController();
 			handlerAdapter = controller.execute(request, response);
-			log.info("FrontServlet 주차장 수정 화면 - " + handlerAdapter);
+			log.info("FrontServlet 주차장 수정 화면(input) - " + handlerAdapter);
 			
 		}
 		
@@ -118,17 +126,6 @@ public class ParkingFrontServlet extends HttpServlet {
 			
 		}
 		
-		else if(pathURL.equals("/Menu.hj")) {
-			
-			handlerAdapter = new HandlerAdapter();
-			handlerAdapter.setPath("/WEB-INF/view/main/main.jsp");
-			log.info("FrontServlet 주차장 등록 화면 - " + handlerAdapter);
-
-		}
-		
-		else {
-			
-		}
 		
 		if (handlerAdapter != null) {
 			

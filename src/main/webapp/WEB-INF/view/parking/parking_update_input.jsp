@@ -90,7 +90,7 @@
 
 <div>
 <button type="submit"> 등록 </button>
-<button type="reset"> 취소 </button>
+<button type="reset" onclick="location.href='./ParkingSelectAll.hj'"> 취소 </button>
 </div>
 
 </fieldset>
