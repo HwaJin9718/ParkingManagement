@@ -81,8 +81,8 @@
 </div>
 
 <div>
-<button onclick="./ParkingUpdate.hj">수정</button>
-<button onclick="./ParkingDelete.hj">삭제</button>
+<button onclick="location.href = './ParkingUpdate.hj?parking_code=${parkingDTO.parking_code}'">수정</button>
+<button onclick="location.href = './ParkingDelete.hj?parking_code=${parkingDTO.parking_code}'">삭제</button>
 </div>
 
 </body>

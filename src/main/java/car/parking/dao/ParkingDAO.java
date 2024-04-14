@@ -226,7 +226,42 @@ public class ParkingDAO implements ParkingService {
 
 	@Override
 	public ParkingDTO parkingDelete(int parking_code) {
-		// TODO Auto-generated method stub
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			
+			Context context = new InitialContext();
+			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
+			connection = dataSource.getConnection();
+			
+			String sql = "delete from parking ";
+			sql += "where parking_code = ?";
+			log.info(sql);
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, parking_code);
+			
+			int count = preparedStatement.executeUpdate();
+			
+			if (count > 0) {
+				connection.setAutoCommit(false);
+				connection.commit();
+				log.info("주차장 정보 삭제 - 커밋되었습니다.");
+			} else {
+				connection.rollback();
+				log.info("주차장 정보 삭제 - 롤백되었습니다.");
+			}
+			
+		} catch (NamingException e) {
+			log.info(parking_code + " 주차장 삭제 실패(NamingException) - " + e);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			log.info(parking_code + " 주차장 삭제 실패(SQLException) - " + e);
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 

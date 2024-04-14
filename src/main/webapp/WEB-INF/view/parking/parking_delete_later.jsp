@@ -8,5 +8,12 @@
 </head>
 <body>
 
+<script type="text/javascript">
+
+alert("${parkingDTO.parking_code}번의 주차장 정보를 삭제하였습니다.");
+location.href = "./ParkingSelectAll.hj";
+
+</script>
+
 </body>
 </html>

@@ -42,7 +42,7 @@
 </table>
 
 <div>
-<button onclick="./ParkingInsertInput.hj">주차장 등록</button>
+<button onclick="location.href ='./ParkingInsertInput.hj'">주차장 등록</button>
 </div>
 
 </body>
