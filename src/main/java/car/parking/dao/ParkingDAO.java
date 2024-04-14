@@ -219,12 +219,65 @@ public class ParkingDAO implements ParkingService {
 	}
 
 	@Override
-	public ParkingDTO parkingUpdate(ParkingDTO parkingDTO) {
+	public void parkingUpdate(ParkingDTO parkingDTO) {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
-		return null;
+		try {
+			
+			Context context = new InitialContext();
+			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
+			connection = dataSource.getConnection();
+			
+			String sql = "update parking set parking_name = ?, parking_address = ?, parking_latitude = ?, parking_longitude = ?, parking_operation = ?, "
+					+ "parking_type = ?, parking_total_spaces = ?, parking_electriccar_check = ?, parking_electriccar_spaces = ?, "
+					+ "parking_pay_type = ?, parking_base_fee = ?, parking_hourly_rate = ?, parking_edit = sysdate ";
+			sql += "where parking_code = ?";
+			log.info(sql);
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, parkingDTO.getParking_name());
+			preparedStatement.setString(2, parkingDTO.getParking_address());
+			preparedStatement.setDouble(3, parkingDTO.getParking_latitude());
+			preparedStatement.setDouble(4, parkingDTO.getParking_longitude());
+			preparedStatement.setString(5, parkingDTO.getParking_operation());
+			preparedStatement.setString(6, parkingDTO.getParking_type());
+			preparedStatement.setString(7, parkingDTO.getParking_total_spaces());
+			preparedStatement.setString(8, parkingDTO.getParking_electriccar_check());
+			preparedStatement.setString(9, parkingDTO.getParking_electriccar_spaces());
+			preparedStatement.setString(10, parkingDTO.getParking_pay_type());
+			preparedStatement.setString(11, parkingDTO.getParking_base_fee());
+			preparedStatement.setString(12, parkingDTO.getParking_hourly_rate());
+			preparedStatement.setInt(13, parkingDTO.getParking_code());
+			
+			int count = preparedStatement.executeUpdate();
+			
+			if (count > 0) {
+				connection.setAutoCommit(false);
+				connection.commit();
+				log.info("주차장 수정 - 커밋되었습니다.");
+			} else {
+				connection.rollback();
+				log.info("주차장 수정 - 롤백되었습니다.");
+			}
+			
+		} catch (NamingException e) {
+			log.info(parkingDTO.getParking_code() + " 주차장 수정 실패(NamingException) - " + e);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			log.info(parkingDTO.getParking_code() + " 주차장 수정 실패(SQLException) - " + e);
+			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	@Override
@@ -263,6 +316,14 @@ public class ParkingDAO implements ParkingService {
 		} catch (SQLException e) {
 			log.info(parking_code + " 주차장 삭제 실패(SQLException) - " + e);
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}

@@ -5,13 +5,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import car.common.control.Controller;
 import car.common.handler.HandlerAdapter;
+import car.parking.dao.ParkingDAO;
+import car.parking.dto.ParkingDTO;
 
 public class ParkingUpdateController implements Controller {
 	
 	@Override
 	public HandlerAdapter execute(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int parking_code = Integer.parseInt(request.getParameter("parking_code"));
+		
+		ParkingDAO parkingDAO = new ParkingDAO();
+		ParkingDTO parkingDTO = new ParkingDTO();
+		
+		parkingDTO = parkingDAO.parkingSelectDetail(parking_code);
+		request.setAttribute("parkingDTO", parkingDTO);
+		
+		HandlerAdapter handlerAdapter = new HandlerAdapter();
+		handlerAdapter.setPath("/WEB-INF/view/parking/parking_update_input.jsp");
+		
+		return handlerAdapter;
 	}
 
 }

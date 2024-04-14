@@ -19,6 +19,8 @@ import car.parking.controller.ParkingDeleteController;
 import car.parking.controller.ParkingInsertController;
 import car.parking.controller.ParkingSelectAllController;
 import car.parking.controller.ParkingSelectDetailController;
+import car.parking.controller.ParkingUpdateController;
+import car.parking.controller.ParkingUpdateInputController;
 
 @MultipartConfig(
 	    fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
@@ -40,6 +42,8 @@ public class ParkingFrontServlet extends HttpServlet {
 	}
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.setCharacterEncoding("UTF-8");
 		
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
@@ -75,12 +79,28 @@ public class ParkingFrontServlet extends HttpServlet {
 		
 		else if(pathURL.equals("/ParkingInsert.hj")) {
 			
-			request.setCharacterEncoding("UTF-8");
+//			request.setCharacterEncoding("UTF-8");
 			controller = new ParkingInsertController();
 			handlerAdapter = controller.execute(request, response);
 			log.info("FrontServlet 주차장 등록 - " + handlerAdapter);
 			
 		} 
+		
+		else if(pathURL.equals("/ParkingUpdate.hj")) {
+			
+			controller = new ParkingUpdateController();
+			handlerAdapter = controller.execute(request, response);
+			log.info("FrontServlet 주차장 수정 전체조회 - " + handlerAdapter);
+			
+		} 
+		
+		else if(pathURL.equals("/ParkingUpdateInput.hj")) {
+			
+			controller = new ParkingUpdateInputController();
+			handlerAdapter = controller.execute(request, response);
+			log.info("FrontServlet 주차장 수정 화면 - " + handlerAdapter);
+			
+		}
 		
 		else if(pathURL.equals("/ParkingDelete.hj")) {
 			

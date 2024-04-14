@@ -64,8 +64,9 @@
 
 <div>
 <label for="parking_pay_type">적용 가능 할인권 : </label>
-<input type="checkbox" name="parking_pay_type" id="parking_pay_type" value="R">정기권
-<input type="checkbox" name="parking_pay_type" id="parking_pay_type" value="T">시간권
+<input type="radio" name="parking_pay_type" id="parking_pay_type" value="R">정기권
+<input type="radio" name="parking_pay_type" id="parking_pay_type" value="T">시간권
+<input type="radio" name="parking_pay_type" id="parking_pay_type" value="RT">모두(정기권, 시간권)
 </div>
 
 <div>
