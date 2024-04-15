@@ -13,11 +13,11 @@
 </div>
 
 <div>
-<button onclick="location.href = ''">사용자 주차 기록</button>
+<button onclick="location.href = './RecordsSelectUser.hw'">사용자 주차 기록</button>
 </div>
 
 <div>
-<button onclick="location.href = ''">주차장 관리자 주차 기록</button>
+<button onclick="location.href = './RecordsSelectParkingCode.hw'">주차장 관리자 주차 기록</button>
 </div>
 
 </body>

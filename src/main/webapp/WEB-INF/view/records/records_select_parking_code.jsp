@@ -5,20 +5,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주차기록 전체 조회(user)</title>
+<title>전체 주차장 코드번호 조회</title>
 </head>
 <body>
 
-<h5>주차 기록 조회</h5>
+<h5>주차장 코드 번호 조회</h5>
 
 <table>
 
 <thead>
 <tr>
-<th>코드 번호</th>
-<th>차량 번호</th>
-<th>입차 시간</th>
-<th>출차 시간</th>
+<th>회원 코드 번호</th>
+<th>주차장 코드 번호</th>
+<th>주차장 이름</th>
 <th></th>
 </tr>
 </thead>
@@ -27,11 +26,10 @@
 
 <c:forEach var="arrayList" items="${arrayList}">
 <tr>
-<td>${arrayList.records_code}</td>
-<td>${arrayList.user_car_num}</td>
-<td>${arrayList.records_start}</td>
-<td>${arrayList.records_end}</td>
-<td><a href="./RecordsSelectDetailUser.hw?records_code=${arrayList.records_code}">상세 정보 보기</a></td>
+<td>${arrayList.user_code}</td>
+<td>${arrayList.parking_code}</td>
+<td>${arrayList.parking_name}</td>
+<td><a href="./RecordsSelectParking.hw?parking_code=${arrayList.parking_code}&parking_name=${arrayList.parking_name}">주차 기록 보기</a></td>
 </tr>
 </c:forEach>
 

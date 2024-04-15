@@ -42,7 +42,8 @@
 </table>
 
 <div>
-<button onclick="location.href ='./ParkingInsertInput.hj'">주차장 등록</button>
+<button onclick="location.href ='./ParkingInsertInput.hj'">주차장 등록</button><br>
+<button onclick="location.href ='./Menu.hj'">메뉴</button>
 </div>
 
 </body>

@@ -5,36 +5,26 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import car.common.control.Controller;
 import car.common.handler.HandlerAdapter;
 import car.records.dao.RecordsDAO;
 import car.records.dto.RecordsDTO;
 
-public class RecordsSelectParkingController implements Controller {
-	
-	private static final Log log = LogFactory.getLog(RecordsSelectParkingController.class);
+public class RecordsSelectParkingCodeController implements Controller {
 	
 	@Override
 	public HandlerAdapter execute(HttpServletRequest request, HttpServletResponse response) {
-		
-		int parking_code = Integer.parseInt(request.getParameter("parking_code"));
-		log.info("parking_code - " + parking_code);
-		String parking_name = request.getParameter("parking_name");
-		log.info("parking_name - " + parking_name);
 		
 		RecordsDAO recordsDAO = new RecordsDAO();
 		RecordsDTO recordsDTO = new RecordsDTO();
 		ArrayList<RecordsDTO> arrayList = new ArrayList<RecordsDTO>();
 		
-		arrayList = recordsDAO.recordsSelectParking(parking_code);
+		int user_code = 12345; // 회원 코드번호 세션으로 가져오기!
+		arrayList = recordsDAO.recordsSelectParkingCode(user_code);
 		request.setAttribute("arrayList", arrayList);
-		request.setAttribute("parking_name", parking_name);
 		
 		HandlerAdapter handlerAdapter = new HandlerAdapter();
-		handlerAdapter.setPath("/WEB-INF/view/records/records_select_parking.jsp");
+		handlerAdapter.setPath("/WEB-INF/view/records/records_select_parking_code.jsp");
 		
 		return handlerAdapter;
 	}
