@@ -8,17 +8,9 @@
 </head>
 <body>
 
-
 <script type="text/javascript">
 location.href = "./Menu.hj";
 </script>
-
-
-<!--  
-<script type="text/javascript">
-location.href = "./ParkingSelectAll.hj";
-</script>
--->
 
 </body>
 </html>
