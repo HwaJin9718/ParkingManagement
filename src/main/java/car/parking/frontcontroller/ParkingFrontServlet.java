@@ -15,6 +15,8 @@ import org.apache.commons.logging.LogFactory;
 
 import car.common.control.Controller;
 import car.common.handler.HandlerAdapter;
+import car.parking.controller.ParkingApproveController;
+import car.parking.controller.ParkingApproveProcessController;
 import car.parking.controller.ParkingDeleteController;
 import car.parking.controller.ParkingInsertController;
 import car.parking.controller.ParkingSelectAllController;
@@ -123,6 +125,22 @@ public class ParkingFrontServlet extends HttpServlet {
 			controller = new ParkingDeleteController();
 			handlerAdapter = controller.execute(request, response);
 			log.info("FrontServlet 주차장 삭제 처리 - " + handlerAdapter);
+			
+		} 
+		
+		else if(pathURL.equals("/ParkingApprove.hj")) {
+			
+			controller = new ParkingApproveController();
+			handlerAdapter = controller.execute(request, response);
+			log.info("FrontServlet 주차장 승인 요청 - " + handlerAdapter);
+			
+		}
+		
+		else if(pathURL.equals("/ParkingApproveProcess.hj")) {
+			
+			controller = new ParkingApproveProcessController();
+			handlerAdapter = controller.execute(request, response);
+			log.info("FrontServlet 주차장 승인 처리 - " + handlerAdapter);
 			
 		}
 		

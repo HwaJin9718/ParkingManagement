@@ -89,18 +89,16 @@ public class ParkingDAO implements ParkingService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "select parking_name, parking_address, parking_operation, parking_type, parking_total_spaces, parking_electriccar_check, parking_electriccar_spaces, "
+			String sql = "select parking_name, parking_address, parking_latitude, parking_longitude, parking_operation, "
+					+ "parking_type, parking_total_spaces, parking_electriccar_check, parking_electriccar_spaces, "
 					+ "parking_pay_type, parking_base_fee, parking_hourly_rate, parking_approval, "
 					+ "to_char(parking_registration, 'YYYY\"년\" MM\"월\" DD\"일\"') parking_registration, to_char(parking_edit, 'YYYY\"년\" MM\"월\" DD\"일\"') parking_edit from parking ";
 			sql += "where parking_code = ? ";
 			log.info("SQL 확인 - " + sql);
 			
 			preparedStatement = connection.prepareStatement(sql);
-			log.info("---preparedStatement1---");
 			preparedStatement.setInt(1, parking_code);
-			log.info("---preparedStatement2---");
 			resultSet = preparedStatement.executeQuery();
-			log.info("---resultSet---");
 			
 			while (resultSet.next()) {
 				
@@ -108,6 +106,10 @@ public class ParkingDAO implements ParkingService {
 				parkingDTO.setParking_name(resultSet.getString("parking_name"));
 				parkingDTO.setParking_address(resultSet.getString("parking_address"));
 				parkingDTO.setParking_operation(resultSet.getString("parking_operation"));
+				parkingDTO.setParking_latitude(resultSet.getDouble("parking_latitude"));
+				log.info("parking_latitude - " + parkingDTO.getParking_latitude());
+				parkingDTO.setParking_longitude(resultSet.getDouble("parking_longitude"));
+				log.info("parking_longitude - " + parkingDTO.getParking_longitude());
 				parkingDTO.setParking_type(resultSet.getString("parking_type"));
 				parkingDTO.setParking_total_spaces(resultSet.getString("parking_total_spaces"));
 				parkingDTO.setParking_electriccar_check(resultSet.getString("parking_electriccar_check"));
@@ -118,7 +120,6 @@ public class ParkingDAO implements ParkingService {
 				parkingDTO.setParking_approval(resultSet.getString("parking_approval"));
 				parkingDTO.setParking_registration(resultSet.getString("parking_registration"));
 				parkingDTO.setParking_edit(resultSet.getString("parking_edit"));
-				log.info("parkingDTO - " + parkingDTO);
 				
 			}
 			
@@ -315,6 +316,55 @@ public class ParkingDAO implements ParkingService {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			log.info(parking_code + " 주차장 삭제 실패(SQLException) - " + e);
+			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	@Override
+	public void parkingApprove(ParkingDTO parkingDTO) {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			
+			Context context = new InitialContext();
+			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
+			connection = dataSource.getConnection();
+			
+			String sql = "update parking set parking_approval = ?, parking_edit = sysdate ";
+			sql += "where parking_code = ?";
+			log.info(sql);
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, parkingDTO.getParking_approval());
+			preparedStatement.setInt(2, parkingDTO.getParking_code());
+			
+			int count = preparedStatement.executeUpdate();
+			
+			if (count > 0) {
+				connection.setAutoCommit(false);
+				connection.commit();
+				log.info("주차장 승인 - 커밋되었습니다.");
+			} else {
+				connection.rollback();
+				log.info("주차장 승인 - 롤백되었습니다.");
+			}
+			
+		} catch (NamingException e) {
+			log.info(parkingDTO.getParking_code() + " 주차장 승인 실패(NamingException) - " + e);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			log.info(parkingDTO.getParking_code() + " 주차장 승인 실패(SQLException) - " + e);
 			e.printStackTrace();
 		} finally {
 			try {

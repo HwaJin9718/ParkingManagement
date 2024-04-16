@@ -20,6 +20,14 @@
 </div>
 
 <div>
+위도 : ${parkingDTO.parking_latitude}
+</div>
+
+<div>
+경도 : ${parkingDTO.parking_longitude}
+</div>
+
+<div>
 운영시간 : ${parkingDTO.parking_operation}
 </div>
 
@@ -38,7 +46,7 @@
 <div>
 전기차 충전 가능 여부 : 
 <c:choose>
-<c:when test="${parkingDTO.parking_electriccar_check} == 'Y'">가능</c:when>
+<c:when test="${parkingDTO.parking_electriccar_check == 'Y'}">가능</c:when>
 <c:otherwise>불가능</c:otherwise>
 </c:choose>
 </div>
@@ -50,8 +58,8 @@
 <div>
 적용 가능 할인권 : 
 <c:choose>
-<c:when test="${parkingDTO.parking_pay_type} == 'R'">정기권</c:when>
-<c:when test="${parkingDTO.parking_pay_type} == 'T'">시간권</c:when>
+<c:when test="${parkingDTO.parking_pay_type == 'R'}">정기권</c:when>
+<c:when test="${parkingDTO.parking_pay_type == 'T'}">시간권</c:when>
 <c:otherwise>정기권, 시간권</c:otherwise>
 </c:choose>
 </div>
@@ -67,7 +75,7 @@
 <div>
 승인 여부 : 
 <c:choose>
-<c:when test="${parkingDTO.parking_approval} == 'AP'">승인</c:when>
+<c:when test="${parkingDTO.parking_approval eq 'AP'}">승인</c:when>
 <c:otherwise>미승인</c:otherwise>
 </c:choose>
 </div>
@@ -81,8 +89,10 @@
 </div>
 
 <div>
+<button onclick="location.href = './ParkingSelectAll.hj'">주차장 목록</button>
 <button onclick="location.href = './ParkingUpdate.hj?parking_code=${parkingDTO.parking_code}'">수정</button>
 <button onclick="location.href = './ParkingDelete.hj?parking_code=${parkingDTO.parking_code}'">삭제</button>
+<button onclick="location.href = './ParkingApprove.hj?parking_code=${parkingDTO.parking_code}'">승인</button>
 </div>
 
 </body>

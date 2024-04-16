@@ -32,8 +32,8 @@ public class ParkingInsertController implements Controller {
 	
 	private static final Log log = LogFactory.getLog(ParkingInsertController.class);
 	
-	private String parkingphotoPath = "/WEB-INF/view/parkingphoto";
-	private String parkingdocumentPath = "/WEB-INF/view/parkingdocument";
+	private String parkingphotoPath = "/parking_management/parkingphoto";
+	private String parkingdocumentPath = "/parking_management/parkingdocument";
 	
 	@Override
 	public HandlerAdapter execute(HttpServletRequest request, HttpServletResponse response) {

@@ -15,5 +15,7 @@ public interface ParkingService {
 	public void parkingUpdate(ParkingDTO parkingDTO);
 	
 	public void parkingDelete(int parking_code);
+	
+	public void parkingApprove(ParkingDTO parkingDTO);
 
 }

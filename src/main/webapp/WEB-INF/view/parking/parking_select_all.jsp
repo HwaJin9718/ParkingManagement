@@ -11,6 +11,11 @@
 
 <h5>주차장 목록</h5>
 
+<div>
+<button onclick="location.href ='./Menu.hj'">메뉴</button>
+<button onclick="location.href ='./ParkingInsertInput.hj'">주차장 등록</button>
+</div>
+
 <table>
 
 <thead>
@@ -18,6 +23,7 @@
 <th>코드 번호</th>
 <th>이름</th>
 <th>승인상태</th>
+<th></th>
 </tr>
 </thead>
 
@@ -25,9 +31,15 @@
 
 <c:forEach var="arrayList" items="${arrayList}">
 <tr>
-<td><a href="./ParkingSelectDetail.hj?parking_code=${arrayList.parking_code}">${arrayList.parking_code}</a></td>
-<td><a href="./ParkingSelectDetail.hj?parking_code=${arrayList.parking_code}">${arrayList.parking_name}</a></td>
-<td><a href="./ParkingSelectDetail.hj?parking_code=${arrayList.parking_code}">${arrayList.parking_approval}</a></td>
+<td>${arrayList.parking_code}</td>
+<td>${arrayList.parking_name}</td>
+<td>
+<c:choose>
+<c:when test="${arrayList.parking_approval eq 'AP'}">승인</c:when>
+<c:otherwise>미승인</c:otherwise>
+</c:choose>
+</td>
+<td><a href="./ParkingSelectDetail.hj?parking_code=${arrayList.parking_code}">상세 보기</a></td>
 </tr>
 </c:forEach>
 
@@ -40,11 +52,6 @@
 </tbody>
 
 </table>
-
-<div>
-<button onclick="location.href ='./ParkingInsertInput.hj'">주차장 등록</button><br>
-<button onclick="location.href ='./Menu.hj'">메뉴</button>
-</div>
 
 </body>
 </html>

@@ -34,11 +34,13 @@
 <div>
 <label for="parking_latitude">주차장 위도 : </label>
 <input type="text" name="parking_latitude" id="parking_latitude" value="${parkingDTO.parking_latitude}"><br>
+
 </div>
 
 <div>
 <label for="parking_longitude">주차장 경도 : </label>
-<input type="text" name="parking_longitude" id="parking_longitude" value="${parkingDTO.parking_latitude}"><br>
+<input type="text" name="parking_longitude" id="parking_longitude" value="${parkingDTO.parking_longitude}"><br>
+
 </div>
 
 <div>
