@@ -28,7 +28,7 @@
 
 <c:forEach var="arrayList" items="${arrayList}">
 <tr>
-<td>${arrayList.parking_code}</td>
+<td>${parking_code}</td>
 <td>${arrayList.records_code}</td>
 <td>${arrayList.user_car_num}</td>
 <td>${arrayList.records_start}</td>
@@ -48,7 +48,7 @@
 </table>
 
 <div>
-<button onclick="location.href ='./RecordsInsertInput.hw?parking_code=${arrayList.parking_code}&parking_name=${parking_name}'">주차 기록 등록</button>
+<button onclick="location.href ='./RecordsInsertInput.hw?parking_code=${parking_code}&parking_name=${parking_name}'">주차 기록 등록</button>
 <button onclick="location.href ='./Menu.hj'">메뉴</button>
 </div>
 

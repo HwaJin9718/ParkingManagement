@@ -36,7 +36,7 @@
 </div>
 
 <div>
-<button onclick="location.href = './RecordsSelectUser.hw">목록</button>
+<button onclick="location.href = './RecordsSelectUser.hw?user_code=${recordsDTO.user_code}'">전체 목록</button>
 </div>
 
 </body>

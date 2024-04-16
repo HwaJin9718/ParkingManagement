@@ -209,7 +209,7 @@ public class RecordsDAO implements RecordsService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "select records_code, user_car_num, parking_name, "
+			String sql = "select records_code, user_code, user_car_num, parking_name, "
 					+ "to_char(records_start, 'YYYY-MM-DD hh24:mi:SS') records_start, to_char(records_end, 'YYYY-MM-DD hh24:mi:SS') records_end, payment_total from records ";
 			sql += "where records_code = ? ";
 			log.info("SQL 확인 - " + sql);
@@ -221,6 +221,7 @@ public class RecordsDAO implements RecordsService {
 			while (resultSet.next()) {
 				
 				recordsDTO.setRecords_code(resultSet.getInt("records_code"));
+				recordsDTO.setUser_code(resultSet.getInt("user_code"));
 				recordsDTO.setUser_car_num(resultSet.getString("user_car_num"));
 				recordsDTO.setParking_name(resultSet.getString("parking_name"));
 				recordsDTO.setRecords_start(resultSet.getString("records_start"));

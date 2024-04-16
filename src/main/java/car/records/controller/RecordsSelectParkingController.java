@@ -31,6 +31,7 @@ public class RecordsSelectParkingController implements Controller {
 		
 		arrayList = recordsDAO.recordsSelectParking(parking_code);
 		request.setAttribute("arrayList", arrayList);
+		request.setAttribute("parking_code", parking_code);
 		request.setAttribute("parking_name", parking_name);
 		
 		HandlerAdapter handlerAdapter = new HandlerAdapter();
