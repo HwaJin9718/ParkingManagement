@@ -5,12 +5,45 @@
 <head>
 <meta charset="UTF-8">
 <title>주차 기록 수정(input)</title>
+
+<script src="./js/jquery-3.5.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+$(function() {
+	$("#update").submit(function() {
+		
+		if(!$("input[name='payment_total']").val()) {
+			alert("총 결제 금액을 입력하세요.");
+			$("input[name='payment_total']").focus();
+			return false;
+		}
+		
+		var regexp_records_payment_total = /^\d+(\,\d+)?$/;
+		var records_payment_total_check = $("input[name='payment_total']").val()
+		
+		if(!regexp_records_payment_total.test(records_payment_total_check)) {
+			alert("총 결제 금액이 유효하지 않습니다.\n숫자 및 ,(쉼표)로 구분하여 기재 (ex. 10,000 or 15,000 등)");
+			$("input[name='payment_total']").focus();
+			return false;
+		}
+		
+		if(records_payment_total_check.length > 10) {
+			alert("총 결제 금액은 최대 10자리까지 가능합니다.");
+			$("input[name='payment_total']").focus();
+			return false;
+		}
+		
+	});
+});
+
+</script>
+
 </head>
 <body>
 
 <h5>주차 기록 수정</h5>
 
-<form action="./RecordsUpdateInput.hw" method="post">
+<form action="./RecordsUpdateInput.hw" method="post" name="records_update" id="update">
 <fieldset>
 
 <div>

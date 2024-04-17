@@ -9,7 +9,7 @@
 <body>
 
 <script type="text/javascript">
-alert("주차 기록 정보를 등록하였습니다. \n 차량번호 : ${recordsDTO.user_car_num} , 주차장 : ${recordsDTO.parking_name}");
+alert("주차 기록 정보를 등록하였습니다. \n차량번호 : ${recordsDTO.user_car_num} , 주차장 : ${recordsDTO.parking_name}");
 location.href="./RecordsSelectParking.hw?parking_code=${recordsDTO.parking_code}&parking_name=${recordsDTO.parking_name}"
 </script>
 
