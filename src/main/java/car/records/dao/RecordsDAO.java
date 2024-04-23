@@ -22,7 +22,7 @@ public class RecordsDAO implements RecordsService {
 	private static final Log log = LogFactory.getLog(RecordsDAO.class);
 	
 	@Override
-	public ArrayList<RecordsDTO> recordsSelectUser(int user_code) {
+	public ArrayList<RecordsDTO> recordsSelectUser(int member_code) {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -35,19 +35,19 @@ public class RecordsDAO implements RecordsService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "select records_code, user_car_num, records_start, records_end from records ";
-			sql += "where user_code = ? ";
+			String sql = "select records_code, member_car_num, records_start, records_end from records ";
+			sql += "where member_code = ? ";
 			log.info("SQL 확인 - " + sql);
 			
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, user_code);
+			preparedStatement.setInt(1, member_code);
 			resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
 				
 				RecordsDTO recordsDTO = new RecordsDTO();
 				recordsDTO.setRecords_code(resultSet.getInt("records_code"));
-				recordsDTO.setUser_car_num(resultSet.getString("user_car_num"));
+				recordsDTO.setMember_car_num(resultSet.getString("member_car_num"));
 				recordsDTO.setRecords_start(resultSet.getString("records_start"));
 				recordsDTO.setRecords_end(resultSet.getString("records_end"));
 				arrayList.add(recordsDTO);
@@ -55,14 +55,14 @@ public class RecordsDAO implements RecordsService {
 			}
 			
 			if (resultSet.getRow() == 0) {
-				log.info(user_code + " 회원님의 계정으로 저장된 주차 기록이 없습니다.");
+				log.info(member_code + " 회원님의 계정으로 저장된 주차 기록이 없습니다.");
 			}
 			
 		} catch (NamingException e) {
-			log.info(user_code + "회원 주차기록 전체 조회 실패(NamingException) - " + e);
+			log.info(member_code + "회원 주차기록 전체 조회 실패(NamingException) - " + e);
 			e.printStackTrace();
 		} catch (SQLException e) {
-			log.info(user_code + "회원 주차기록 전체 조회 실패(SQLException) - " + e);
+			log.info(member_code + "회원 주차기록 전체 조회 실패(SQLException) - " + e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -79,7 +79,7 @@ public class RecordsDAO implements RecordsService {
 	}
 	
 	@Override
-	public ArrayList<RecordsDTO> recordsSelectParkingCode(int user_code) {
+	public ArrayList<RecordsDTO> recordsSelectParkingCode(int member_code) {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -93,11 +93,11 @@ public class RecordsDAO implements RecordsService {
 			connection = dataSource.getConnection();
 			
 			String sql = "select parking_code, parking_name from parking ";
-			sql += "where user_code = ? ";
+			sql += "where member_code = ? ";
 			log.info("SQL 확인 - " + sql);
 			
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, user_code);
+			preparedStatement.setInt(1, member_code);
 			resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
@@ -105,20 +105,20 @@ public class RecordsDAO implements RecordsService {
 				RecordsDTO recordsDTO = new RecordsDTO();
 				recordsDTO.setParking_code(resultSet.getInt("parking_code"));
 				recordsDTO.setParking_name(resultSet.getString("parking_name"));
-				recordsDTO.setUser_code(user_code);
+				recordsDTO.setMember_code(member_code);
 				arrayList.add(recordsDTO);
 				
 			}
 			
 			if (resultSet.getRow() == 0) {
-				log.info(user_code + " 회원님의 계정으로 저장된 주차장이 없습니다.");
+				log.info(member_code + " 회원님의 계정으로 저장된 주차장이 없습니다.");
 			}
 			
 		} catch (NamingException e) {
-			log.info(user_code + "회원 주차기록 전체 조회 실패(NamingException) - " + e);
+			log.info(member_code + "회원 주차기록 전체 조회 실패(NamingException) - " + e);
 			e.printStackTrace();
 		} catch (SQLException e) {
-			log.info(user_code + "회원 주차기록 전체 조회 실패(SQLException) - " + e);
+			log.info(member_code + "회원 주차기록 전체 조회 실패(SQLException) - " + e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -149,7 +149,7 @@ public class RecordsDAO implements RecordsService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "select records_code, user_car_num, "
+			String sql = "select records_code, member_car_num, "
 					+ "to_char(records_start, 'YYYY-MM-DD hh24:mi:SS') records_start, to_char(records_end, 'YYYY-MM-DD hh24:mi:SS') records_end from records ";
 			sql += "where parking_code = ? ";
 			log.info("SQL 확인 - " + sql);
@@ -163,7 +163,7 @@ public class RecordsDAO implements RecordsService {
 				RecordsDTO recordsDTO = new RecordsDTO();
 				recordsDTO.setParking_code(parking_code);
 				recordsDTO.setRecords_code(resultSet.getInt("records_code"));
-				recordsDTO.setUser_car_num(resultSet.getString("user_car_num"));
+				recordsDTO.setMember_car_num(resultSet.getString("member_car_num"));
 				recordsDTO.setRecords_start(resultSet.getString("records_start"));
 				recordsDTO.setRecords_end(resultSet.getString("records_end"));
 				arrayList.add(recordsDTO);
@@ -209,7 +209,7 @@ public class RecordsDAO implements RecordsService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "select records_code, user_code, user_car_num, parking_name, "
+			String sql = "select records_code, member_code, member_car_num, parking_name, "
 					+ "to_char(records_start, 'YYYY-MM-DD hh24:mi:SS') records_start, to_char(records_end, 'YYYY-MM-DD hh24:mi:SS') records_end, payment_total from records ";
 			sql += "where records_code = ? ";
 			log.info("SQL 확인 - " + sql);
@@ -221,8 +221,8 @@ public class RecordsDAO implements RecordsService {
 			while (resultSet.next()) {
 				
 				recordsDTO.setRecords_code(resultSet.getInt("records_code"));
-				recordsDTO.setUser_code(resultSet.getInt("user_code"));
-				recordsDTO.setUser_car_num(resultSet.getString("user_car_num"));
+				recordsDTO.setMember_code(resultSet.getInt("member_code"));
+				recordsDTO.setMember_car_num(resultSet.getString("member_car_num"));
 				recordsDTO.setParking_name(resultSet.getString("parking_name"));
 				recordsDTO.setRecords_start(resultSet.getString("records_start"));
 				recordsDTO.setRecords_end(resultSet.getString("records_end"));
@@ -265,7 +265,7 @@ public class RecordsDAO implements RecordsService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "select records_code, user_code, user_car_num, parking_code, parking_name, "
+			String sql = "select records_code, member_code, member_car_num, parking_code, parking_name, "
 					+ "to_char(records_start, 'YYYY-MM-DD hh24:mi:SS') records_start, to_char(records_end, 'YYYY-MM-DD hh24:mi:SS') records_end, payment_total from records ";
 			sql += "where records_code = ? ";
 			log.info("SQL 확인 - " + sql);
@@ -277,8 +277,8 @@ public class RecordsDAO implements RecordsService {
 			while (resultSet.next()) {
 				
 				recordsDTO.setRecords_code(resultSet.getInt("records_code"));
-				recordsDTO.setUser_code(resultSet.getInt("user_code"));
-				recordsDTO.setUser_car_num(resultSet.getString("user_car_num"));
+				recordsDTO.setMember_code(resultSet.getInt("member_code"));
+				recordsDTO.setMember_car_num(resultSet.getString("member_car_num"));
 				recordsDTO.setParking_code(resultSet.getInt("parking_code"));
 				recordsDTO.setParking_name(resultSet.getString("parking_name"));
 				recordsDTO.setRecords_start(resultSet.getString("records_start"));
@@ -320,13 +320,13 @@ public class RecordsDAO implements RecordsService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "insert into records (records_code, user_code, user_car_num, parking_code, parking_name, records_start) ";
+			String sql = "insert into records (records_code, member_code, member_car_num, parking_code, parking_name, records_start) ";
 			sql += "values (records_seq.NEXTVAL, ?, ?, ?, ?, sysdate) ";
 			log.info("SQL 확인 - " + sql);
 			
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, recordsDTO.getUser_code());
-			preparedStatement.setString(2, recordsDTO.getUser_car_num());
+			preparedStatement.setInt(1, recordsDTO.getMember_code());
+			preparedStatement.setString(2, recordsDTO.getMember_car_num());
 			preparedStatement.setInt(3, recordsDTO.getParking_code());
 			preparedStatement.setString(4, recordsDTO.getParking_name());
 			
@@ -420,13 +420,9 @@ public class RecordsDAO implements RecordsService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "delete from records ";
-			sql += "where records_code = ? ";
-			log.info("SQL 확인 - " + sql);
-			
+			String sql = "DELETE FROM records WHERE records_code = ? ";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, records_code);
-			
 			int count = preparedStatement.executeUpdate();
 			
 			if (count > 0) {

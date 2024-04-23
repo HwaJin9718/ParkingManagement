@@ -22,7 +22,7 @@ public class ParkingDAO implements ParkingService {
 	private static final Log log = LogFactory.getLog(ParkingDAO.class);
 
 	@Override
-	public ArrayList<ParkingDTO> parkingSelectAll(int user_code) {
+	public ArrayList<ParkingDTO> parkingSelectAll(int member_code) {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -36,11 +36,11 @@ public class ParkingDAO implements ParkingService {
 			connection = dataSource.getConnection();
 			
 			String sql = "select parking_code, parking_name, parking_approval from parking ";
-			sql += "where user_code = ? ";
+			sql += "where member_code = ? ";
 			log.info("SQL 확인 - " + sql);
 			
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, user_code);
+			preparedStatement.setInt(1, member_code);
 			resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
@@ -52,14 +52,14 @@ public class ParkingDAO implements ParkingService {
 			}
 			
 			if (resultSet.getRow() == 0) {
-				log.info(user_code + " 회원님의 계정으로 등록된 주차장이 없습니다. 주차장을 등록해주세요.");
+				log.info(member_code + " 회원님의 계정으로 등록된 주차장이 없습니다. 주차장을 등록해주세요.");
 			}
 			
 		} catch (NamingException e) {
-			log.info(user_code + "회원 주차장 전체 조회 실패(NamingException) - " + e);
+			log.info(member_code + "회원 주차장 전체 조회 실패(NamingException) - " + e);
 			e.printStackTrace();
 		} catch (SQLException e) {
-			log.info(user_code + "회원 주차장 전체 조회 실패(SQLException) - " + e);
+			log.info(member_code + "회원 주차장 전체 조회 실패(SQLException) - " + e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -68,6 +68,58 @@ public class ParkingDAO implements ParkingService {
 				connection.close();
 			} catch (SQLException e) {
 				log.info("주차장 전체 조회 close 실패 - " + e);
+				e.printStackTrace();
+			}
+		}
+		
+		return arrayList;
+	}
+	
+	@Override
+	public ArrayList<ParkingDTO> parkingSelectAdmin() {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		ArrayList<ParkingDTO> arrayList = new ArrayList<ParkingDTO>();
+		
+		try {
+			
+			Context context = new InitialContext();
+			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
+			connection = dataSource.getConnection();
+			
+			String sql = "select parking_code, parking_name, parking_approval from parking ";
+			log.info("SQL 확인 - " + sql);
+			
+			preparedStatement = connection.prepareStatement(sql);
+			resultSet = preparedStatement.executeQuery();
+			
+			while (resultSet.next()) {
+				ParkingDTO parkingDTO = new ParkingDTO();
+				parkingDTO.setParking_code(resultSet.getInt("parking_code"));
+				parkingDTO.setParking_name(resultSet.getString("parking_name"));
+				parkingDTO.setParking_approval(resultSet.getString("parking_approval"));
+				arrayList.add(parkingDTO);
+			}
+			
+			if (resultSet.getRow() == 0) {
+				log.info("등록된 주차장이 없습니다.");
+			}
+			
+		} catch (NamingException e) {
+			log.info("admin 주차장 전체 조회 실패(NamingException) - " + e);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			log.info("admin 주차장 전체 조회 실패(SQLException) - " + e);
+			e.printStackTrace();
+		} finally {
+			try {
+				resultSet.close();
+				preparedStatement.close();
+				connection.close();
+			} catch (SQLException e) {
+				log.info("admin 주차장 전체 조회 close 실패 - " + e);
 				e.printStackTrace();
 			}
 		}
@@ -160,7 +212,7 @@ public class ParkingDAO implements ParkingService {
 					+ "parking_photo1_name, parking_photo1_path, parking_photo2_name, parking_photo2_path, "
 					+ "parking_photo3_name, parking_photo3_path, parking_photo4_name, parking_photo4_path, "
 					+ "parking_photo5_name, parking_photo5_path, parking_document_name, parking_document_path, "
-					+ "parking_registration, parking_edit, user_code)";
+					+ "parking_registration, parking_edit, member_code)";
 			sql += " values (parking_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate, sysdate, ?)";
 			log.info("SQL 확인 - " + sql);
 			
@@ -189,7 +241,7 @@ public class ParkingDAO implements ParkingService {
 			preparedStatement.setString(22, parkingDTO.getParking_photo5_path());
 			preparedStatement.setString(23, parkingDTO.getParking_document_name());
 			preparedStatement.setString(24, parkingDTO.getParking_document_path());
-			preparedStatement.setInt(25, parkingDTO.getUser_code());
+			preparedStatement.setInt(25, parkingDTO.getMember_code());
 			
 			int count = preparedStatement.executeUpdate();
 			
@@ -203,10 +255,10 @@ public class ParkingDAO implements ParkingService {
 			}
 			
 		} catch (NamingException e) {
-			log.info(parkingDTO.getUser_code() + "회원 주차장 등록 실패(NamingException) - " + e);
+			log.info(parkingDTO.getMember_code() + "회원 주차장 등록 실패(NamingException) - " + e);
 			e.printStackTrace();
 		} catch (SQLException e) {
-			log.info(parkingDTO.getUser_code() + "회원 주차장 등록 실패(SQLException) - " + e);
+			log.info(parkingDTO.getMember_code() + "회원 주차장 등록 실패(SQLException) - " + e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -293,14 +345,11 @@ public class ParkingDAO implements ParkingService {
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc");
 			connection = dataSource.getConnection();
 			
-			String sql = "delete from parking ";
-			sql += "where parking_code = ?";
-			log.info(sql);
-			
+			String sql = "DELETE FROM parking WHERE parking_code = ? ";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, parking_code);
-			
 			int count = preparedStatement.executeUpdate();
+			log.info("SQL 확인 - " + sql);
 			
 			if (count > 0) {
 				connection.setAutoCommit(false);

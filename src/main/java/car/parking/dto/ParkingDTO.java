@@ -35,7 +35,7 @@ public class ParkingDTO {
 	private String parking_registration; // 등록일시
 	private String parking_edit; // 수정일시
 	
-	private int user_code; // 등록한 고객 코드 > 외래키
+	private int member_code; // 등록한 고객 코드 > 외래키
 
 	public int getParking_code() {
 		return parking_code;
@@ -261,12 +261,12 @@ public class ParkingDTO {
 		this.parking_edit = parking_edit;
 	}
 
-	public int getUser_code() {
-		return user_code;
+	public int getMember_code() {
+		return member_code;
 	}
 
-	public void setUser_code(int user_code) {
-		this.user_code = user_code;
+	public void setMember_code(int member_code) {
+		this.member_code = member_code;
 	}
 
 }

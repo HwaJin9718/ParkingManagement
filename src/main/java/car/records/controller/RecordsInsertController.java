@@ -2,6 +2,7 @@ package car.records.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,16 +22,16 @@ public class RecordsInsertController implements Controller {
 		int parking_code = Integer.parseInt(request.getParameter("parking_code"));
 		log.info("parking_code - " + parking_code);
 		String parking_name = request.getParameter("parking_name");
-		int user_code = Integer.parseInt(request.getParameter("user_code"));
-		String user_car_num = request.getParameter("user_car_num");
+		int member_code = Integer.parseInt(request.getParameter("member_code"));
+		String member_car_num = request.getParameter("member_car_num");
 		
 		RecordsDAO recordsDAO = new RecordsDAO();
 		RecordsDTO recordsDTO = new RecordsDTO();
 		
 		recordsDTO.setParking_code(parking_code);
 		recordsDTO.setParking_name(parking_name);
-		recordsDTO.setUser_code(user_code);
-		recordsDTO.setUser_car_num(user_car_num);
+		recordsDTO.setMember_code(member_code);
+		recordsDTO.setMember_car_num(member_car_num);
 		
 		recordsDAO.recordsInsert(recordsDTO);
 		request.setAttribute("recordsDTO", recordsDTO);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,7 +25,12 @@ public class ParkingSelectAllController implements Controller {
 		ParkingDTO parkingDTO = new ParkingDTO();
 		ArrayList<ParkingDTO> arrayList = new ArrayList<ParkingDTO>();
 		
-		arrayList = parkingDAO.parkingSelectAll(12345); // 세션연결되어있지 않아 12345로 user_code 지정
+		HttpSession session = request.getSession();
+		session.setAttribute("member_code", 12345); // 회원코드 세션 강제 등록
+		int member_code = (int) session.getAttribute("member_code");
+		log.info("member_code - " + member_code);
+		
+		arrayList = parkingDAO.parkingSelectAll(member_code); 
 		request.setAttribute("arrayList", arrayList);
 		HandlerAdapter handlerAdapter = new HandlerAdapter();
 		log.info("Controller 전체 주차장 조회");

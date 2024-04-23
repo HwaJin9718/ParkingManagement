@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +8,10 @@
 </head>
 <body>
 
-<script type="text/javascript">
-
-alert("${parkingDTO.parking_code}번의 주차장 정보를 삭제하였습니다.");
-location.href = "./ParkingSelectAll.hj";
-
-</script>
+	<script type="text/javascript">
+		alert("${parkingDTO.parking_code}번의 주차장 정보를 삭제하였습니다.");
+		location.href = "./ParkingSelectAll.hj";
+	</script>
 
 </body>
 </html>

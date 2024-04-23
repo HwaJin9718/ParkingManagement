@@ -6,9 +6,9 @@ import car.records.dto.RecordsDTO;
 
 public interface RecordsService {
 	
-	public ArrayList<RecordsDTO> recordsSelectUser(int user_code);
+	public ArrayList<RecordsDTO> recordsSelectUser(int member_code);
 	
-	public ArrayList<RecordsDTO> recordsSelectParkingCode(int user_code);
+	public ArrayList<RecordsDTO> recordsSelectParkingCode(int member_code);
 	
 	public ArrayList<RecordsDTO> recordsSelectParking(int parking_code);
 	

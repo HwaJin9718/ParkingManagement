@@ -1,12 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>주차장 등록 화면(input)</title>
-
+<link rel="stylesheet" type="text/css"
+	href="./css/bootstrap.min_4.5.0.css">
+<link rel="stylesheet" type="text/css" href="./css/global.css">
 <script src="./js/jquery-3.5.1.min.js" type="text/javascript"></script>
+<script src="./js/bootstrap.min_4.5.0.js" type="text/javascript"></script>
+<style>
+/* 버튼 스타일 */
+button {
+	background-color: #6c757d; /* 헤더의 배경색과 같은색으로 설정 */
+	color: white; /* 글자색 흰색으로 설정 */
+	border: none; /* 테두리 제거 */
+	padding: 10px 20px; /* 버튼 내부 여백 설정 */
+	cursor: pointer; /* 커서 모양 변경 */
+	margin-bottom: 10px; /* 버튼 아래 여백 설정 */
+}
+
+button:hover {
+	background-color: #5a6268; /* 호버 상태일 때 배경색 약간 어둡게 변경 */
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+	text-align: left; /* 가운데 정렬 */
+	margin-top: 20px; /* 위 여백 설정 */
+}
+</style>
 <script type="text/javascript">
 
 $(function() {
@@ -222,98 +246,244 @@ $(function() {
 </head>
 <body>
 
-<h5>주차장 등록</h5>
+	<header id="main-header" class="py-2 btn-dark text-white">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h1>주차장 관리</h1>
+				</div>
+			</div>
+		</div>
+	</header>
 
-<form action="./ParkingInsert.hj" method="post" name="parking_insert" id="insert" enctype="multipart/form-data">
-<fieldset>
+	<div class="button-container">
+		<button onclick="location.href ='./Menu.hj'">메뉴로 이동하기</button>
+	</div>
 
-<div>
-<label for="parking_name">주차장 이름 : </label>
-<input type="text" name="parking_name" id="parking_name">
-</div>
+	<section id="member">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="text-muted">
+								<i class="fas fa-user-edit mr-sm-1"></i> 주차장 등록
+							</h3>
+						</div>
+						<div class="card-body">
 
-<div>
-<label for="parking_address">주차장 주소 : </label>
-<input type="text" name="parking_address" id="parking_address"><br>
-[참고] 도로명 주소로 기재해주세요.
-</div>
+							<form action="./ParkingInsert.hj" method="post"
+								name="parking_insert" id="insert" class=""
+								enctype="multipart/form-data">
+								<fieldset>
 
-<div>
-<label for="parking_latitude">주차장 위도 : </label>
-<input type="text" name="parking_latitude" id="parking_latitude"><br>
-</div>
+									<div class="form-group row">
+										<label for="parking_name" class="col-4 col-form-label pr-0">
+											<i class="fas fa-user-plus mr-sm-1"></i>주차장 이름 :
+										</label>
+										<div class="col-8 pl-0">
+											<input type="text" name="parking_name" id="parking_name"
+												class="form-control">
+										</div>
+									</div>
 
-<div>
-<label for="parking_longitude">주차장 경도 : </label>
-<input type="text" name="parking_longitude" id="parking_longitude"><br>
-</div>
+									<div class="form-group row">
+										<label for="parking_address" class="col-4 col-form-label pr-0">
+											<i class="fas fa-user-plus mr-sm-1"></i>주차장 주소 :
+										</label>
+										<div class="col-8 pl-0">
+											<input type="text" name="parking_address"
+												id="parking_address" class="form-control">
+										</div>
+										<div class="col-4"></div>
+										<div class="col-8 pl-0">[참고] 도로명 주소로 기재해주세요.</div>
+									</div>
 
-<div>
-<label for="parking_operation">운영시간 : </label>
-<input type="text" name="parking_operation" id="parking_operation"><br>
-[참고] ex. 09:00~18:00
-</div>
+									<div class="form-group row">
+										<label for="parking_latitude"
+											class="col-4 col-form-label pr-0"> <i
+											class="fas fa-user-plus mr-sm-1"></i>주차장 위도 :
+										</label>
+										<div class="col-8 pl-0">
+											<input type="text" name="parking_latitude"
+												id="parking_latitude" class="form-control"><br>
+										</div>
+									</div>
 
-<div>
-<label for="parking_type">주차장 종류 : </label>
-<input type="radio" name="parking_type" id="parking_type" value="public">공영
-<input type="radio" name="parking_type" id="parking_type" value="private">민영
-</div>
+									<div class="form-group row">
+										<label for="parking_longitude"
+											class="col-4 col-form-label pr-0"> <i
+											class="fas fa-user-plus mr-sm-1"></i>주차장 경도 :
+										</label>
+										<div class="col-8 pl-0">
+											<input type="text" name="parking_longitude"
+												id="parking_longitude" class="form-control"><br>
+										</div>
+									</div>
 
-<div>
-<label for="parking_total_spaces">주차 공간 : </label>
-<input type="text" name="parking_total_spaces" id="parking_total_spaces">석
-</div>
+									<div class="form-group row">
+										<label for="parking_operation"
+											class="col-4 col-form-label pr-0"> <i
+											class="fas fa-user-plus mr-sm-1"></i>운영시간 :
+										</label>
+										<div class="col-8 pl-0">
+											<input type="text" name="parking_operation"
+												id="parking_operation" class="form-control">
+										</div>
+										<div class="col-4"></div>
+										<div class="col-8 pl-0">[참고] ex. 09:00~18:00</div>
+									</div>
 
-<div>
-<label for="parking_electriccar_check">전기차 충전 가능 여부 : </label>
-<input type="radio" name="parking_electriccar_check" id="parking_electriccar_check" value="Y">가능
-<input type="radio" name="parking_electriccar_check" id="parking_electriccar_check" value="N">불가능
-</div>
 
-<div>
-<label for="parking_electriccar_spaces">전기차 충전 가능 공간 : </label>
-<input type="text" name="parking_electriccar_spaces" id="parking_electriccar_spaces">석
-</div>
+									<div class="form-group row">
+										<label for="parking_type"
+											class="col-4 col-form-check-label pr-0"> <i
+											class="fas fa-restroom mr-sm-1"></i>주차장 종류 :
+										</label>
+										<div class="col-md-7 form-check form-check-inline text-left">
+											<input type="radio" name="parking_type" id="parking_type"
+												value="public" class="form-check-input">공영 <input
+												type="radio" name="parking_type" id="parking_type"
+												value="private" class="ml-sm-3 form-check-input">민영
+										</div>
+									</div>
 
-<div>
-<label for="parking_pay_type">적용 가능 할인권 : </label>
-<input type="radio" name="parking_pay_type" id="parking_pay_type" value="R">정기권
-<input type="radio" name="parking_pay_type" id="parking_pay_type" value="T">시간권
-<input type="radio" name="parking_pay_type" id="parking_pay_type" value="RT">모두(정기권, 시간권)
-</div>
+									<div class="form-group row">
+										<label for="parking_total_spaces"
+											class="col-4 col-form-label pr-0"> <i
+											class="fas fa-user-plus mr-sm-1"></i>주차 공간 :
+										</label>
+										<div class="col-8 pl-0 input-group">
+											<input type="text" name="parking_total_spaces"
+												id="parking_total_spaces" class="form-control">
+											<div class="input-group-append">
+												<span class="input-group-text">석</span>
+											</div>
+										</div>
+									</div>
 
-<div>
-<label for="parking_base_fee">1시간 당 기본요금 : </label>
-<input type="text" name="parking_base_fee" id="parking_base_fee">원<br>
-[참고] 금액은 숫자 및 콤마로 구분하여 기재해주세요. (ex. 10,000 or 15,000 등)
-</div>
+									<div class="form-group row">
+										<label for="parking_electriccar_check"
+											class="col-4 col-form-check-label pr-0"> <i
+											class="fas fa-restroom mr-sm-1"></i>전기차 충전 가능 여부 :
+										</label>
+										<div class="col-md-7 form-check form-check-inline text-left">
+											<input type="radio" name="parking_electriccar_check"
+												id="parking_electriccar_check" value="Y"
+												class="form-check-input">가능 <input type="radio"
+												name="parking_electriccar_check"
+												id="parking_electriccar_check" value="N"
+												class="ml-sm-3 form-check-input">불가능
+										</div>
+									</div>
 
-<div>
-<label for="parking_hourly_rate">10분 over time 시 추가 요금 : </label>
-<input type="text" name="parking_hourly_rate" id="parking_hourly_rate">원<br>
-[참고] 금액은 숫자 및 콤마로 구분하여 기재해주세요. (ex. 10,000 or 15,000 등)
-</div>
+									<div class="form-group row">
+										<label for="parking_electriccar_spaces"
+											class="col-4 col-form-label pr-0"> <i
+											class="fas fa-user-plus mr-sm-1"></i>전기차 충전 가능 공간 :
+										</label>
+										<div class="col-8 pl-0 input-group">
+											<input type="text" name="parking_electriccar_spaces"
+												id="parking_electriccar_spaces" class="form-control">
+											<div class="input-group-append">
+												<span class="input-group-text">석</span>
+											</div>
+										</div>
+									</div>
 
-<div>
-<label for="parking_photo">주차장 이미지 등록 : </label>
-<input type="file" name="parking_photo" id="parking_photo" accept="image/*" multiple><br>
-[참고] 주차장 입구, 내부 등 주차장 사진을 등록해주세요. (최대 5개)
-</div>
+									<div class="form-group row">
+										<label for="parking_pay_type"
+											class="col-4 col-form-check-label pr-0"> <i
+											class="fas fa-restroom mr-sm-1"></i>적용 가능 할인권 :
+										</label>
+										<div class="col-md-7 form-check form-check-inline text-left">
+											<input type="radio" name="parking_pay_type"
+												id="parking_pay_type" value="R" class="form-check-input">정기권
+											<input type="radio" name="parking_pay_type"
+												id="parking_pay_type" value="T"
+												class="ml-sm-3 form-check-input">시간권 <input
+												type="radio" name="parking_pay_type" id="parking_pay_type"
+												value="RT" class="ml-sm-3 form-check-input">모두(정기권,
+											시간권)
+										</div>
+									</div>
 
-<div>
-<label for="parking_document">서류 등록 : </label>
-<input type="file" name="parking_document" id="parking_document" accept="image/*"><br>
-[참고] 토지매매서 or 임대계약서를 등록해주세요.
-</div>
+									<div class="form-group row">
+										<label for="parking_base_fee"
+											class="col-4 col-form-label pr-0"> <i
+											class="fas fa-user-plus mr-sm-1"></i>1시간 당 기본요금 :
+										</label>
+										<div class="col-8 pl-0 input-group">
+											<input type="text" name="parking_base_fee"
+												id="parking_base_fee" class="form-control">
+											<div class="input-group-append">
+												<span class="input-group-text">원</span>
+											</div>
+										</div>
+										<div class="col-4"></div>
+										<div class="col-8 pl-0">[참고] 금액은 숫자 및 콤마로 구분하여 기재해주세요.
+											(ex. 10,000 or 15,000 등)</div>
+									</div>
 
-<div>
-<button type="submit"> 등록 </button>
-<button type="reset"> 취소 </button>
-</div>
+									<div class="form-group row">
+										<label for="parking_hourly_rate"
+											class="col-4 col-form-label pr-0"> <i
+											class="fas fa-user-plus mr-sm-1"></i>10분 over time 시 추가 요금 :
+										</label>
+										<div class="col-8 pl-0 input-group">
+											<input type="text" name="parking_hourly_rate"
+												id="parking_hourly_rate" class="form-control">
+											<div class="input-group-append">
+												<span class="input-group-text">원</span>
+											</div>
+										</div>
+										<div class="col-4"></div>
+										<div class="col-8 pl-0">[참고] 금액은 숫자 및 콤마로 구분하여 기재해주세요.
+											(ex. 10,000 or 15,000 등)</div>
+									</div>
 
-</fieldset>
-</form>
+									<div class="form-group row">
+										<label for="parking_photo" class="col-4 col-form-label pr-0">
+											<i class="fas fa-user-plus mr-sm-1"></i>주차장 이미지 등록 :
+										</label>
+										<div>
+											<input type="file" name="parking_photo" id="parking_photo"
+												accept="image/*" multiple>
+											<div class="pl-0">[참고] 주차장 입구, 내부 등 주차장 사진을 등록해주세요. (최대
+												5개)</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label for="parking_document"
+											class="col-4 col-form-label pr-0"> <i
+											class="fas fa-user-plus mr-sm-1"></i>서류 등록 :
+										</label>
+										<div>
+											<input type="file" name="parking_document"
+												id="parking_document" accept="image/*">
+											<div class="pl-0">[참고] 토지매매서 or 임대계약서를 등록해주세요.</div>
+										</div>
+									</div>
+
+									<nav class="navbar justify-content-end">
+										<button type="submit" class="btn btn-outline-primary mr-sm-1">
+											<i class="fas fa-save mr-sm-1"></i> 등록
+										</button>
+										<button type="reset" id="clear"
+											class="btn btn-outline-warning mr-sm-1">
+											<i class="fas fa-share-square mr-sm-1"></i>취소
+										</button>
+									</nav>
+
+								</fieldset>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 </body>
 </html>

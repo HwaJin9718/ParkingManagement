@@ -5,10 +5,10 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +19,7 @@ import car.parking.controller.ParkingApproveController;
 import car.parking.controller.ParkingApproveProcessController;
 import car.parking.controller.ParkingDeleteController;
 import car.parking.controller.ParkingInsertController;
+import car.parking.controller.ParkingSelectAdminController;
 import car.parking.controller.ParkingSelectAllController;
 import car.parking.controller.ParkingSelectDetailController;
 import car.parking.controller.ParkingUpdateController;
@@ -45,8 +46,6 @@ public class ParkingFrontServlet extends HttpServlet {
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("UTF-8");
-		
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String pathURL = requestURI.substring(contextPath.length());
@@ -58,7 +57,7 @@ public class ParkingFrontServlet extends HttpServlet {
 		if (pathURL.equals("/Menu.hj")) {
 			
 			handlerAdapter = new HandlerAdapter();
-			handlerAdapter.setPath("/WEB-INF/view/main/main.jsp");
+			handlerAdapter.setPath("/WEB-INF/view/menu/menu.jsp");
 			log.info("FrontServlet 메뉴 화면 - " + handlerAdapter);
 			
 		}
@@ -68,6 +67,14 @@ public class ParkingFrontServlet extends HttpServlet {
 			controller = new ParkingSelectAllController();
 			handlerAdapter = controller.execute(request, response);
 			log.info("FrontServlet 주차장 전체 조회 - " + handlerAdapter);
+			
+		}
+		
+		else if(pathURL.equals("/ParkingSelectAdmin.hj")) {
+			
+			controller = new ParkingSelectAdminController();
+			handlerAdapter = controller.execute(request, response);
+			log.info("FrontServlet admin 주차장 전체 조회 - " + handlerAdapter);
 			
 		}
 		
@@ -89,7 +96,6 @@ public class ParkingFrontServlet extends HttpServlet {
 		
 		else if(pathURL.equals("/ParkingInsert.hj")) {
 			
-//			request.setCharacterEncoding("UTF-8");
 			controller = new ParkingInsertController();
 			handlerAdapter = controller.execute(request, response);
 			log.info("FrontServlet 주차장 등록 - " + handlerAdapter);

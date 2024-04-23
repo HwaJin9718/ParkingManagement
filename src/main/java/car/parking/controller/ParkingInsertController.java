@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.commons.logging.Log;
@@ -38,7 +39,10 @@ public class ParkingInsertController implements Controller {
 	@Override
 	public HandlerAdapter execute(HttpServletRequest request, HttpServletResponse response) {
 		
-		int user_code = 12345; // 회원코드 세션으로 받을 것!!
+		HttpSession session = request.getSession();
+		session.setAttribute("member_code", 12345); // 회원코드 세션 강제 등록
+		int member_code = (int) session.getAttribute("member_code");
+		log.info("member_code - " + member_code);
 		
 		String parking_name = request.getParameter("parking_name");
 		log.info("parking_name - " + parking_name);
@@ -98,11 +102,11 @@ public class ParkingInsertController implements Controller {
 						String imagePath;
 						
 						if (name.equals("parking_document")) {
-							String documentFolderPath = parkingdocumentPath + File.separator + user_code;
+							String documentFolderPath = parkingdocumentPath + File.separator + member_code;
 							createFolder(documentFolderPath);
 							imagePath = documentFolderPath + File.separator + fileName;
 						} else {
-							String photoFolderPath = parkingphotoPath + File.separator + user_code;
+							String photoFolderPath = parkingphotoPath + File.separator + member_code;
 							createFolder(photoFolderPath);
 							imagePath = photoFolderPath + File.separator + fileName;
 						}
@@ -179,7 +183,7 @@ public class ParkingInsertController implements Controller {
 		parkingDTO.setParking_photo5_path(parking_photo5_path);
 		parkingDTO.setParking_document_name(parking_document_name);
 		parkingDTO.setParking_document_path(parking_document_path);
-		parkingDTO.setUser_code(user_code);
+		parkingDTO.setMember_code(member_code);
 		
 		parkingDAO.parkingInsert(parkingDTO);
 		request.setAttribute("parkingDTO", parkingDTO);

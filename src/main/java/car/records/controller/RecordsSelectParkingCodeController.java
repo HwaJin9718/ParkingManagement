@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import car.common.control.Controller;
 import car.common.handler.HandlerAdapter;
@@ -12,6 +16,8 @@ import car.records.dto.RecordsDTO;
 
 public class RecordsSelectParkingCodeController implements Controller {
 	
+	private static final Log log = LogFactory.getLog(RecordsSelectParkingCodeController.class);
+	
 	@Override
 	public HandlerAdapter execute(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -19,8 +25,12 @@ public class RecordsSelectParkingCodeController implements Controller {
 		RecordsDTO recordsDTO = new RecordsDTO();
 		ArrayList<RecordsDTO> arrayList = new ArrayList<RecordsDTO>();
 		
-		int user_code = 12345; // 회원 코드번호 세션으로 가져오기!
-		arrayList = recordsDAO.recordsSelectParkingCode(user_code);
+		HttpSession session = request.getSession();
+		session.setAttribute("member_code", 12345); // 회원코드 세션 강제 등록
+		int member_code = (int) session.getAttribute("member_code");
+		log.info("member_code - " + member_code);
+		
+		arrayList = recordsDAO.recordsSelectParkingCode(member_code);
 		request.setAttribute("arrayList", arrayList);
 		
 		HandlerAdapter handlerAdapter = new HandlerAdapter();

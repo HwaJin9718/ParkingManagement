@@ -6,7 +6,9 @@ import car.parking.dto.ParkingDTO;
 
 public interface ParkingService {
 	
-	public ArrayList<ParkingDTO> parkingSelectAll(int user_code);
+	public ArrayList<ParkingDTO> parkingSelectAll(int member_code);
+	
+	public ArrayList<ParkingDTO> parkingSelectAdmin();
 	
 	public ParkingDTO parkingSelectDetail(int parking_code);
 	

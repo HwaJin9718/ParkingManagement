@@ -2,6 +2,7 @@ package car.parking.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,7 +19,10 @@ public class ParkingUpdateInputController implements Controller {
 	@Override
 	public HandlerAdapter execute(HttpServletRequest request, HttpServletResponse response) {
 		
-		int user_code = 12345; // 회원코드 세션으로 받을 것!!
+		HttpSession session = request.getSession();
+		session.setAttribute("member_code", 12345); // 회원코드 세션 강제 등록
+		int member_code = (int) session.getAttribute("member_code");
+		log.info("member_code - " + member_code);
 		
 		int parking_code = Integer.parseInt(request.getParameter("parking_code"));
 		String parking_name = request.getParameter("parking_name");
@@ -52,7 +56,7 @@ public class ParkingUpdateInputController implements Controller {
 		parkingDTO.setParking_pay_type(parking_pay_type);
 		parkingDTO.setParking_base_fee(parking_base_fee);
 		parkingDTO.setParking_hourly_rate(parking_hourly_rate);
-		parkingDTO.setUser_code(user_code);
+		parkingDTO.setMember_code(member_code);
 		
 		parkingDAO.parkingUpdate(parkingDTO);
 		request.setAttribute("parkingDTO", parkingDTO);

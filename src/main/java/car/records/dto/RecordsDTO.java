@@ -5,8 +5,8 @@ public class RecordsDTO {
 	private int records_code; // 주차 기록 코드 번호
 	private String records_start; // 입차 시간
 	private String records_end; // 출차 시간
-	private int user_code; // 등록한 고객 코드 (외래키)
-	private String user_car_num; // 주차된 차량 번호, 회원 차량 번호
+	private int member_code; // 등록한 고객 코드 (외래키)
+	private String member_car_num; // 주차된 차량 번호, 회원 차량 번호
 	private int parking_code; // 주차장 코드 (외래키)
 	private String parking_name; // 주차장 정보 중 주차장 이름
 	private String payment_total; // 결제 정보 중 결제 금액
@@ -29,17 +29,17 @@ public class RecordsDTO {
 	public void setRecords_end(String records_end) {
 		this.records_end = records_end;
 	}
-	public int getUser_code() {
-		return user_code;
+	public int getMember_code() {
+		return member_code;
 	}
-	public void setUser_code(int user_code) {
-		this.user_code = user_code;
+	public void setMember_code(int member_code) {
+		this.member_code = member_code;
 	}
-	public String getUser_car_num() {
-		return user_car_num;
+	public String getMember_car_num() {
+		return member_car_num;
 	}
-	public void setUser_car_num(String user_car_num) {
-		this.user_car_num = user_car_num;
+	public void setMember_car_num(String member_car_num) {
+		this.member_car_num = member_car_num;
 	}
 	public int getParking_code() {
 		return parking_code;
